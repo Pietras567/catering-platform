@@ -1,8 +1,16 @@
 import classnames from "classnames";
 
-const Button = (classes: string) => {
+interface ButtonProps {
+    classes?: string;
+    label: string;
+    onClickAction?: () => void;
+}
+
+const Button: React.FC<ButtonProps> = ({classes, label, onClickAction}) => {
     return (
-        <button className={classnames(classes)}>Button</button>
+        <button className={classnames("rounded-4xl min-w-32", classes)} onClick={onClickAction}>
+            <span>{label}</span>
+        </button>
     );
 }
 

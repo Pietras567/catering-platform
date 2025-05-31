@@ -9,7 +9,7 @@ interface NavItemProps {
 
 const NavItem: React.FC<NavItemProps> = ({href, label, linkClass}) => {
     return (
-        <a href={href} className={classNames("p-3.5 hover:text-gray-700", linkClass)}>
+        <a href={href} className={classNames("hover:text-gray-700", linkClass)}>
             {label}
         </a>
     );
