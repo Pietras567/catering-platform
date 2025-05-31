@@ -1,6 +1,10 @@
+import NavBar from "./common/navbar/NavBar.tsx";
+
 const HomePage = () => {
     return (
-        <h1>Home Page</h1>
+        <>
+            <NavBar/>
+        </>
     );
 }
 
