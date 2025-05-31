@@ -1,0 +1,74 @@
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-CU12-ubuntu-22.04
+    restart: no
+    user: root
+    hostname: mssql-broccoflower
+    environment:
+        - ACCEPT_EULA=Y
+        - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+        - MSSQL_PID=Developer
+        - MSSQL_BACKUP_DIR=/var/opt/mssql/backups
+        - MSSQL_LCID=1033
+        - TZ=Etc/UTC
+        - DB_NAME=${DB_NAME}
+        - DB_USER=${DB_USER}
+        - DB_USER_PASSWORD=${DB_USER_PASSWORD}
+    ports:
+        - 14330:1433
+    volumes:
+        - mssql_data:/var/opt/mssql/data
+        - mssql_log:/var/opt/mssql/log
+        - mssql_backups:/var/opt/mssql/backups
+    networks:
+      - mssql-net
+    command: >
+      bash -lc "
+        /opt/mssql/bin/sqlservr & 
+        echo 'Waiting for SQL Server to start…'; 
+        sleep 20; 
+        echo 'Creating database, login and user…';
+
+        /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P '${DB_PASSWORD}' -Q \"
+          IF DB_ID(N'${DB_NAME}') IS NULL
+          BEGIN
+            CREATE DATABASE [${DB_NAME}];
+          END
+        GO
+
+          IF SUSER_ID(N'${DB_USER}') IS NULL
+          BEGIN
+            CREATE LOGIN [${DB_USER}] 
+              WITH PASSWORD = N'${DB_USER_PASSWORD}', 
+                   CHECK_EXPIRATION = OFF, 
+                   CHECK_POLICY = OFF;
+          END
+        GO
+
+          USE [${DB_NAME}];
+        GO
+
+          IF DATABASE_PRINCIPAL_ID(N'${DB_USER}') IS NULL
+          BEGIN
+            CREATE USER [${DB_USER}] FOR LOGIN [${DB_USER}];
+            ALTER ROLE db_owner ADD MEMBER [${DB_USER}];
+          END
+        GO
+        \"
+
+        echo 'Finished.';
+        wait
+      "
+
+networks:
+    mssql-net:
+        name: mssql-net
+
+volumes:
+    mssql_data:
+        driver: local
+    mssql_log:
+        driver: local
+    mssql_backups:
+        driver: local
+  
