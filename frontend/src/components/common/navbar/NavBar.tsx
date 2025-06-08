@@ -27,11 +27,11 @@ const NavBar = () => {
                              linkClass={"h-14 justify-center items-center flex flex-row text-gray-700"}/>
                 ))}
 
-                <div className="absolute right-6 h-14 justify-center items-center flex flex-row">
+                <div className="absolute right-6 h-14 justify-center items-center flex flex-row cursor-pointer">
                     <Button label={"Zaloguj się"} onClickAction={() => {
                         navigate("/login")
                     }}/>
-                    <Button label={"Założ konto"} classes={"bg-green-500 text-white h-8"} onClickAction={() => {
+                    <Button label={"Założ konto"} classes={"bg-green-500 text-white h-8 cursor-pointer"} onClickAction={() => {
                         navigate("/register")
                     }}/>
                 </div>
