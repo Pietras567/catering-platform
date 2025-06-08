@@ -49,16 +49,13 @@ public class HttpsConfig {
 
     private static class HttpsRedirectValve extends ValveBase {
         @Override
-        public void invoke(org.apache.catalina.connector.Request request,
-                           org.apache.catalina.connector.Response response)
-                throws IOException, ServletException {
+        public void invoke(org.apache.catalina.connector.Request request, org.apache.catalina.connector.Response response) throws IOException, ServletException {
 
             if (!request.isSecure()) {
                 String method = request.getMethod();
                 int redirectCode = ("GET".equals(method) || "HEAD".equals(method)) ? 301 : 307;
 
-                String httpsUrl = "https://" + request.getServerName() + ":8443" +
-                        request.getRequestURI();
+                String httpsUrl = "https://" + request.getServerName() + ":8443" + request.getRequestURI();
 
                 if (request.getQueryString() != null) {
                     httpsUrl += "?" + request.getQueryString();

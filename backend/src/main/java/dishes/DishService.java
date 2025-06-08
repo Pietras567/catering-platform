@@ -30,8 +30,7 @@ public class DishService {
     public DishResponse getDishById(Long id) {
         log.info("Fetching dish with ID: {}", id);
 
-        Dish dish = dishRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dish not found with ID: " + id));
+        Dish dish = dishRepository.findById(id).orElseThrow(() -> new RuntimeException("Dish not found with ID: " + id));
 
         return mapToResponseDto(dish);
     }
@@ -40,66 +39,49 @@ public class DishService {
     public List<DishResponse> getAllDishes() {
         log.info("Fetching all dishes");
 
-        return dishRepository.findAll()
-                .stream()
-                .map(this::mapToResponseDto)
-                .collect(Collectors.toList());
+        return dishRepository.findAll().stream().map(this::mapToResponseDto).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public Page<DishResponse> getDishesPaginated(Pageable pageable) {
         log.info("Fetching dishes with pagination");
 
-        return dishRepository.findAll(pageable)
-                .map(this::mapToResponseDto);
+        return dishRepository.findAll(pageable).map(this::mapToResponseDto);
     }
 
     @Transactional(readOnly = true)
     public List<DishResponse> getAvailableDishes() {
         log.info("Fetching available dishes");
 
-        return dishRepository.findAllAvailableDishes()
-                .stream()
-                .map(this::mapToResponseDto)
-                .collect(Collectors.toList());
+        return dishRepository.findAllAvailableDishes().stream().map(this::mapToResponseDto).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public Page<DishResponse> getAvailableDishesPaginated(Pageable pageable) {
         log.info("Fetching available dishes with pagination");
 
-        return dishRepository.findAllAvailableDishesPaginated(pageable)
-                .map(this::mapToResponseDto);
+        return dishRepository.findAllAvailableDishesPaginated(pageable).map(this::mapToResponseDto);
     }
 
     @Transactional(readOnly = true)
     public List<DishResponse> searchDishesByName(String name) {
         log.info("Searching dishes by name: {}", name);
 
-        return dishRepository.findByNameContainingIgnoreCase(name)
-                .stream()
-                .map(this::mapToResponseDto)
-                .collect(Collectors.toList());
+        return dishRepository.findByNameContainingIgnoreCase(name).stream().map(this::mapToResponseDto).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<DishResponse> getDishesByType(Long dishTypeId) {
         log.info("Fetching dishes by type ID: {}", dishTypeId);
 
-        return dishRepository.findByDishTypeId(dishTypeId)
-                .stream()
-                .map(this::mapToResponseDto)
-                .collect(Collectors.toList());
+        return dishRepository.findByDishTypeId(dishTypeId).stream().map(this::mapToResponseDto).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<DishResponse> getDishesByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
         log.info("Fetching dishes by price range: {} - {}", minPrice, maxPrice);
 
-        return dishRepository.findByPriceBetween(minPrice, maxPrice)
-                .stream()
-                .map(this::mapToResponseDto)
-                .collect(Collectors.toList());
+        return dishRepository.findByPriceBetween(minPrice, maxPrice).stream().map(this::mapToResponseDto).collect(Collectors.toList());
     }
 
     public DishResponse createDish(DishRequest dto) {
@@ -109,8 +91,7 @@ public class DishService {
             throw new RuntimeException("Dish with name '" + dto.getName() + "' already exists");
         }
 
-        DishType dishType = dishTypeRepository.findById(dto.getDishTypeId())
-                .orElseThrow(() -> new RuntimeException("Dish type not found with ID: " + dto.getDishTypeId()));
+        DishType dishType = dishTypeRepository.findById(dto.getDishTypeId()).orElseThrow(() -> new RuntimeException("Dish type not found with ID: " + dto.getDishTypeId()));
 
         Dish dish = new Dish();
         dish.setName(dto.getName());
@@ -134,16 +115,13 @@ public class DishService {
     public DishResponse updateDish(Long id, DishRequest dto) {
         log.info("Updating dish with ID: {}", id);
 
-        Dish dish = dishRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dish not found with ID: " + id));
+        Dish dish = dishRepository.findById(id).orElseThrow(() -> new RuntimeException("Dish not found with ID: " + id));
 
-        if (!dish.getName().equalsIgnoreCase(dto.getName()) &&
-                dishRepository.existsByNameIgnoreCase(dto.getName())) {
+        if (!dish.getName().equalsIgnoreCase(dto.getName()) && dishRepository.existsByNameIgnoreCase(dto.getName())) {
             throw new RuntimeException("Dish with name '" + dto.getName() + "' already exists");
         }
 
-        DishType dishType = dishTypeRepository.findById(dto.getDishTypeId())
-                .orElseThrow(() -> new RuntimeException("Dish type not found with ID: " + dto.getDishTypeId()));
+        DishType dishType = dishTypeRepository.findById(dto.getDishTypeId()).orElseThrow(() -> new RuntimeException("Dish type not found with ID: " + dto.getDishTypeId()));
 
         dish.setName(dto.getName());
         dish.setPrice(dto.getPrice());

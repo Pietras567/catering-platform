@@ -48,8 +48,7 @@ public class EventRequestService {
 
         EventRequest savedRequest = eventRequestRepository.save(eventRequest);
 
-        log.info("The event request was created with the ID: {} for the client: {}",
-                savedRequest.getId(), currentUser.getId());
+        log.info("The event request was created with the ID: {} for the client: {}", savedRequest.getId(), currentUser.getId());
         return mapToResponseDto(savedRequest);
     }
 
@@ -57,8 +56,7 @@ public class EventRequestService {
     public EventRequestResponse getEventRequestById(Long id) {
         log.info("Fetching an event request with an ID: {}", id);
 
-        EventRequest eventRequest = eventRequestRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Event request not found: " + id));
+        EventRequest eventRequest = eventRequestRepository.findById(id).orElseThrow(() -> new RuntimeException("Event request not found: " + id));
 
         return mapToResponseDto(eventRequest);
     }
@@ -68,8 +66,7 @@ public class EventRequestService {
         log.info("The client fetching an event request with the ID: {}", id);
 
         User currentUser = getCurrentUser();
-        EventRequest eventRequest = eventRequestRepository.findByIdAndClientId(id, currentUser.getId())
-                .orElseThrow(() -> new AccessDeniedException(id, currentUser.getId()));
+        EventRequest eventRequest = eventRequestRepository.findByIdAndClientId(id, currentUser.getId()).orElseThrow(() -> new AccessDeniedException(id, currentUser.getId()));
 
         return mapToResponseDto(eventRequest);
     }
@@ -79,55 +76,41 @@ public class EventRequestService {
         log.info("Retrieving client requests.");
 
         User currentUser = getCurrentUser();
-        return eventRequestRepository.findByClientId(currentUser.getId())
-                .stream()
-                .map(this::mapToResponseDto)
-                .collect(Collectors.toList());
+        return eventRequestRepository.findByClientId(currentUser.getId()).stream().map(this::mapToResponseDto).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<EventRequestResponse> getAllEventRequests() {
         log.info("Fetching all event requests");
 
-        return eventRequestRepository.findAll()
-                .stream()
-                .map(this::mapToResponseDto)
-                .collect(Collectors.toList());
+        return eventRequestRepository.findAll().stream().map(this::mapToResponseDto).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public Page<EventRequestResponse> getEventRequestsPaginated(Pageable pageable) {
         log.info("Fetching event requests with pagination");
 
-        return eventRequestRepository.findAll(pageable)
-                .map(this::mapToResponseDto);
+        return eventRequestRepository.findAll(pageable).map(this::mapToResponseDto);
     }
 
     @Transactional(readOnly = true)
     public List<EventRequestResponse> getUpcomingEvents() {
         log.info("Fetching upcoming events");
 
-        return eventRequestRepository.findUpcomingEvents(LocalDate.now())
-                .stream()
-                .map(this::mapToResponseDto)
-                .collect(Collectors.toList());
+        return eventRequestRepository.findUpcomingEvents(LocalDate.now()).stream().map(this::mapToResponseDto).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<EventRequestResponse> searchByEventType(String eventType) {
         log.info("Search for events requests by type: {}", eventType);
 
-        return eventRequestRepository.findByEventTypeContainingIgnoreCase(eventType)
-                .stream()
-                .map(this::mapToResponseDto)
-                .collect(Collectors.toList());
+        return eventRequestRepository.findByEventTypeContainingIgnoreCase(eventType).stream().map(this::mapToResponseDto).collect(Collectors.toList());
     }
 
     public EventRequestResponse updateEventRequest(Long id, EventRequestDto dto) {
         log.info("Update event requests with ID: {}", id);
 
-        EventRequest eventRequest = eventRequestRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Event request not found: " + id));
+        EventRequest eventRequest = eventRequestRepository.findById(id).orElseThrow(() -> new RuntimeException("Event request not found: " + id));
 
         eventRequest.setEventType(dto.getEventType());
         eventRequest.setPeopleCount(dto.getPeopleCount());
@@ -147,8 +130,7 @@ public class EventRequestService {
         log.info("The client updates the event request with the ID: {}", id);
 
         User currentUser = getCurrentUser();
-        EventRequest eventRequest = eventRequestRepository.findByIdAndClientId(id, currentUser.getId())
-                .orElseThrow(() -> new AccessDeniedException(id, currentUser.getId()));
+        EventRequest eventRequest = eventRequestRepository.findByIdAndClientId(id, currentUser.getId()).orElseThrow(() -> new AccessDeniedException(id, currentUser.getId()));
 
         eventRequest.setEventType(dto.getEventType());
         eventRequest.setPeopleCount(dto.getPeopleCount());
@@ -192,8 +174,7 @@ public class EventRequestService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found: " + username));
+        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found: " + username));
     }
 
     private EventRequestResponse mapToResponseDto(EventRequest eventRequest) {

@@ -53,8 +53,7 @@ public class EventRequestManagerController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<EventRequestResponse>> searchEventsByType(
-            @RequestParam String eventType) {
+    public ResponseEntity<List<EventRequestResponse>> searchEventsByType(@RequestParam String eventType) {
 
         log.info("Manager searches event requests by type {}", eventType);
 
@@ -63,9 +62,7 @@ public class EventRequestManagerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventRequestResponse> updateEventRequestAsManager(
-            @PathVariable Long id,
-            @Valid @RequestBody EventRequestDto eventRequestDto) {
+    public ResponseEntity<EventRequestResponse> updateEventRequestAsManager(@PathVariable Long id, @Valid @RequestBody EventRequestDto eventRequestDto) {
 
         log.info("Manager updates event request with ID: {}", id);
 

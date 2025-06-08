@@ -20,8 +20,7 @@ public class EventRequestClientController {
     private EventRequestService eventRequestService;
 
     @PostMapping
-    public ResponseEntity<EventRequestResponse> createEventRequest(
-            @Valid @RequestBody EventRequestDto eventRequestDto) {
+    public ResponseEntity<EventRequestResponse> createEventRequest(@Valid @RequestBody EventRequestDto eventRequestDto) {
 
         log.info("Client creating new event request: {}", eventRequestDto.getEventType());
 
@@ -46,9 +45,7 @@ public class EventRequestClientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventRequestResponse> updateClientEventRequest(
-            @PathVariable Long id,
-            @Valid @RequestBody EventRequestDto eventRequestDto) {
+    public ResponseEntity<EventRequestResponse> updateClientEventRequest(@PathVariable Long id, @Valid @RequestBody EventRequestDto eventRequestDto) {
 
         log.info("Client updates event request with ID: {}", id);
 

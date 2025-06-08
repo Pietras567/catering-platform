@@ -32,8 +32,7 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
     Page<Dish> findAllAvailableDishesPaginated(Pageable pageable);
 
     @Query("SELECT d FROM Dish d WHERE d.energy BETWEEN :minEnergy AND :maxEnergy")
-    List<Dish> findByEnergyRange(@Param("minEnergy") Integer minEnergy,
-                                 @Param("maxEnergy") Integer maxEnergy);
+    List<Dish> findByEnergyRange(@Param("minEnergy") Integer minEnergy, @Param("maxEnergy") Integer maxEnergy);
 
     boolean existsByNameIgnoreCase(String name);
 }

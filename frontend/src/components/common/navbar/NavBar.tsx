@@ -31,9 +31,10 @@ const NavBar = () => {
                     <Button label={"Zaloguj się"} onClickAction={() => {
                         navigate("/login")
                     }}/>
-                    <Button label={"Założ konto"} classes={"bg-green-500 text-white h-8 cursor-pointer"} onClickAction={() => {
-                        navigate("/register")
-                    }}/>
+                    <Button label={"Założ konto"} classes={"bg-green-500 text-white h-8 cursor-pointer"}
+                            onClickAction={() => {
+                                navigate("/register")
+                            }}/>
                 </div>
 
                 <hr className="h-px bg-gray-200 border-0 dark:bg-gray-100 top-14 absolute w-full"/>

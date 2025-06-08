@@ -26,9 +26,7 @@ public class DishManagerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DishResponse> updateDish(
-            @PathVariable Long id,
-            @Valid @RequestBody DishRequest dishRequestDto) {
+    public ResponseEntity<DishResponse> updateDish(@PathVariable Long id, @Valid @RequestBody DishRequest dishRequestDto) {
         log.info("Manager request to update dish with ID: {}", id);
 
         DishResponse response = dishService.updateDish(id, dishRequestDto);

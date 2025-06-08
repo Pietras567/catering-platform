@@ -76,9 +76,7 @@ public class DishController {
     }
 
     @GetMapping("/price-range")
-    public ResponseEntity<List<DishResponse>> getDishesByPriceRange(
-            @RequestParam BigDecimal minPrice,
-            @RequestParam BigDecimal maxPrice) {
+    public ResponseEntity<List<DishResponse>> getDishesByPriceRange(@RequestParam BigDecimal minPrice, @RequestParam BigDecimal maxPrice) {
         log.info("Request to get dishes by price range: {} - {}", minPrice, maxPrice);
 
         List<DishResponse> response = dishService.getDishesByPriceRange(minPrice, maxPrice);
