@@ -18,16 +18,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="accounts")
+@Table(name = "accounts")
 public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false, unique=true)
+    @Column(nullable = false, unique = true)
     private String login;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
