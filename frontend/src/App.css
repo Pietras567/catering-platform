@@ -3,4 +3,5 @@
 html, body {
     margin: 0;
     padding: 0;
+    @apply min-h-screen bg-gradient-to-b from-white to-gray-200;
 }
