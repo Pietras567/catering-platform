@@ -426,7 +426,7 @@ const HomePage = () => {
                                         </svg>
                                     ))}
                                 </div>
-                                
+
                                 <blockquote className="text-gray-700 text-lg leading-relaxed mb-6 italic">
                                     "{review.quote}"
                                 </blockquote>
